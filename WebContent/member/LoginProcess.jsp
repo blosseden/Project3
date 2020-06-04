@@ -23,11 +23,14 @@ Map<String, String> memberInfo = dao.getMemberMap(id, pw);
 
 if(memberInfo.get("id")!=null){
 	 //저장된 값이 있다면....세션영역에 아이디, 패스워드, 이름을 속성으로 저장한다.
-	session.setAttribute("USER_ID", memberInfo.get("id"));
-	session.setAttribute("USER_PW", memberInfo.get("pass"));
-	session.setAttribute("USER_NAME", memberInfo.get("name"));
-	
-	response.sendRedirect("login.jsp");
+	session.setAttribute("user_id", memberInfo.get("id"));
+	session.setAttribute("user_pw", memberInfo.get("pass"));
+	session.setAttribute("user_name", memberInfo.get("name"));
+%>
+<script>
+	history.go(-1);
+</script>
+<%
 }
 
 else{

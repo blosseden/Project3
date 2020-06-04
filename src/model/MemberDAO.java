@@ -15,9 +15,6 @@ public class MemberDAO {
 	ResultSet rs;
 
 	//기본생성자
-	public MemberDAO() {
-		System.out.println("MemberDAO생성자 호출");		
-	}
 	public MemberDAO(String driver, String url) {
 		try {
 			Class.forName(driver); 
@@ -132,35 +129,125 @@ public class MemberDAO {
 	}
 
 	//회원가입	
-	public int signup(MemberDTO dto) {
+	public int join(MemberDTO dto) {
 
 		int affected = 0;
 
 		try {
 
 			String query = "INSERT INTO membership( "
-					+" id,phonenum,email,address,pass,name,level) "
+					+" id,phonenum,email,address,pass,name) "
 					+" VALUES( "
-					+" ?,?,?,?,?,?,?)";
-
-			psmt = con.prepareStatement(query);
+					+" ?,?,?,?,?,?)";
+			
+			System.out.println(query);
+			
+			psmt=con.prepareStatement(query);
+			
 			psmt.setString(1, dto.getId());
-			psmt.setInt(2, dto.getPhonenum());
+			System.out.println(dto.getId());
+			psmt.setString(2, dto.getPhonenum());
+			System.out.println(dto.getPhonenum());
 			psmt.setString(3, dto.getEmail());
+			System.out.println(dto.getEmail());
 			psmt.setString(4, dto.getAddress());
+			System.out.println(dto.getAddress());
 			psmt.setString(5, dto.getPass());
+			System.out.println(dto.getPass());
 			psmt.setString(6, dto.getName());
-			psmt.setInt(7, dto.getLevel());
+			System.out.println(dto.getName());
 
 			affected = psmt.executeUpdate();
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		return affected;
 
 	}
+	
+	//아이디중복확인
+	public int overlap(String id) {
 
+		String sql = " SELECT COUNT(*) FROM membership "
+				+ " WHERE id=? ";
+		int isMember = 0;
+
+		try {
+			//prepare 객체로 쿼리문 전송
+			psmt = con.prepareStatement(sql);
+			//인파라미터 설정
+			psmt.setString(1, id);
+			//쿼리실행
+			rs = psmt.executeQuery();
+			//실행결과를 가져오기 위해 next() 호출
+			rs.next();
+
+			isMember = rs.getInt(1);
+			System.out.println("affected:"+isMember);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return isMember;
+	}
+	
+	public String findid(String name, String email) {
+		
+		String sql = " SELECT id FROM membership WHERE name=? AND email=?";
+		
+		String result = "";
+		
+		try {
+			
+			psmt = con.prepareStatement(sql);
+			
+			psmt.setString(1, name);
+			psmt.setString(2, email);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getString(1);
+			}
+			System.out.println("result : " + result);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("오류래요 바보멍청이");
+			
+		}
+		return result;
+	}
+	
+	
+	public String sendpass(String id, String name, String email) {
+		
+		String sql = " SELECT pass FROM membership WHERE id=? AND name=? AND email=?";
+		
+		String result = "";
+		
+		try {
+			
+			psmt = con.prepareStatement(sql);
+			
+			psmt.setString(1, id);
+			psmt.setString(2, name);
+			psmt.setString(3, email);
+			
+			rs = psmt.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getString(1);
+			}
+			System.out.println("result : " + result);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	//닫기
 	public void close() {
 		try {
@@ -171,19 +258,11 @@ public class MemberDAO {
 			System.out.println("자원반납시 예외발생");
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
 }

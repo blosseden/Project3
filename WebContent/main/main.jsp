@@ -38,16 +38,16 @@
 			<div class="main_con_left">
 				<p class="main_title" style="border:0px; margin-bottom:0px;"><img src="../images/main_title01.gif" alt="로그인 LOGIN" /></p>
 				<div class="login_box">
+					 <%
+					 if(session.getAttribute("USER_ID")==null){
+					 %>
+					<form action="../member/LoginProcess.jsp" method="post" name="loginFrm" onsubmit="return loginValidate(this);">
 					<table cellpadding="0" cellspacing="0" border="0">
 						<colgroup>
 							<col width="45px" />
 							<col width="120px" />
 							<col width="55px" />
 						</colgroup>
-					<form action="../member/LoginProcess.jsp" method="post" name="loginFrm" onsubmit="return loginValidate(this);">
-					 <%
-					 if(session.getAttribute("USER_ID")==null){
-					 %>
 						<tr>
 							<th><img src="../images/login_tit01.gif" alt="아이디" /></th>
 							<td><input type="text" name="user_id" value="" class="login_input" /></td>
@@ -57,7 +57,6 @@
 							<th><img src="../images/login_tit02.gif" alt="패스워드" /></th>
 							<td><input type="text" name="user_pw" value="" class="login_input" /></td>
 						</tr>
-						</form>
 					</table>
 					<p>
 						<input type="checkbox" name="" value="" /><img src="../images/login_tit03.gif" alt="저장" />
@@ -66,15 +65,18 @@
 					</p>
 					 
 					<!-- 로그인 후 -->
+						</form>
 						<% }else { %>
+						<table cellpadding="0" cellspacing="0" border="0">
 						<tr>
-						<td><%=session.getAttribute("USER_NAME") %>님, 반갑습니다</td>
-						<td></td>
+						<td>
+					<p><span style="font-weight:bold; color:#333;"><%=session.getAttribute("USER_NAME") %>아</span> 열심히살자 ^오^b <br /><br /></p>
+						</td>
 						</tr>
-					<p style="padding:10px 0px 10px 10px"><span style="font-weight:bold; color:#333;">000님,</span> 반갑습니다.<br />로그인 하셨습니다.</p>
+						</table>
 					<p style="text-align:right; padding-right:10px;">
 						<a href=""><img src="../images/login_btn04.gif" /></a>
-						<a href=""><img src="../images/login_btn05.gif" /></a>
+						<a href="../member/Logout.jsp"><img src="../images/login_btn05.gif" /></a>
 					</p>
 					<% } %>			 
 				</div>

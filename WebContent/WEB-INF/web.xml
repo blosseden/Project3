@@ -22,7 +22,16 @@
 		 <param-name>MariaConnectURL</param-name>
 		 <param-value>jdbc:mariadb://127.0.0.1:3306/suamil_db</param-value>
 	 </context-param>
-
+	 
+	 <context-param>
+	 <param-name>PAGE_SIZE</param-name>
+	  	<param-value>10</param-value>
+	 </context-param>
+	 <context-param>
+	  	<param-name>BLOCK_PAGE</param-name>
+	 	<param-value>5</param-value>
+	 </context-param>
+	  	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.html</welcome-file>

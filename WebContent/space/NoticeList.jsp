@@ -4,7 +4,7 @@
 
 
  <body>
-	<center>
+	<//center>
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>
 
@@ -19,8 +19,6 @@
 					<img src="../images/space/sub01_title.gif" alt="공지사항" class="con_title" />
 					<p class="location"><img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항<p>
 				</div>
-				<div>
-
 <div class="row text-right" style="margin-bottom:20px;
 		padding-right:50px;">
 <!-- 검색부분 -->
@@ -104,7 +102,7 @@
 	</ul>	
 </div>
 
-				</div>
+				
 			</div>
 		</div>
 		<%@ include file="../include/quick.jsp" %>

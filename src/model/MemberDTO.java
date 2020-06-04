@@ -11,7 +11,7 @@ public class MemberDTO {
 	private String id;
 	private String pass;
 	private String name;
-	private int phonenum;
+	private String phonenum;
 	private String email;
 	private String address;
 	private int level;
@@ -47,10 +47,10 @@ public class MemberDTO {
 		this.name = name;
 	}
 
-	public int getPhonenum() {
+	public String getPhonenum() {
 		return phonenum;
 	}
-	public void setPhonenum(int phonenum) {
+	public void setPhonenum(String phonenum) {
 		this.phonenum = phonenum;
 	}
 	public String getEmail() {
@@ -71,21 +71,7 @@ public class MemberDTO {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	/*
-	Object클래스에서 제공하는 메소드로 객체를 문자열형태로 변형해서
-	반환해주는 역할을 한다. toString()메소드를 오버라이딩하면
-	객체 자체를 그대로 print()하는것이 가능하다. 
-	 */
-	@Override
-	public String toString() {		
-		return String.format("아이디:%s, 비밀번호:%s, 이름:%s", 
-				id, pass, name);
-	}
-	
-//	public static void main(String[] args) {
-//		MemberDTO dto = new MemberDTO("kosmo","1234","코스모",null);
-//		System.out.println(dto);
-//	}
+
 }
 
 

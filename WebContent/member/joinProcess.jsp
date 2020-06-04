@@ -4,17 +4,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	request.setCharacterEncoding("UTF-8");
+request.setCharacterEncoding("UTF-8");
+
+String drv = application.getInitParameter("MariaJDBCDriver");
+String url = application.getInitParameter("MariaConnectURL");
 
 String id = request.getParameter("id");
-int phonenum = Integer.parseInt(request.getParameter("phonenum"));
-String email = request.getParameter("email");
-String address = request.getParameter("address");
+String phonenum = request.getParameter("tel1") + request.getParameter("tel2") + request.getParameter("tel3");
+String email = request.getParameter("email1") + "@" + request.getParameter("email2");
+String address = request.getParameter("postcode") + request.getParameter("address") + request.getParameter("detailAddress") + request.getParameter("extraAddress");
 String pass = request.getParameter("pass");
 String name = request.getParameter("name");
-int level = Integer.parseInt(request.getParameter("level"));
 
-
+System.out.println(id);
+System.out.println(phonenum);
+System.out.println(email);
+System.out.println(address);
+System.out.println(pass);
+System.out.println(name);
 
 MemberDTO dto = new MemberDTO();
 
@@ -24,15 +31,12 @@ dto.setEmail(email);
 dto.setAddress(address);
 dto.setPass(pass);
 dto.setName(name);
-dto.setLevel(level);
 
+MemberDAO dao = new MemberDAO(drv, url);
 
-MemberDAO dao = new MemberDAO();
-
-int affected = dao.signup(dto);
+int affected = dao.join(dto);
 if(affected==1){
-	response.sendRedirect("../main/main.jsp");
-	
+	response.sendRedirect("login.jsp");
 }
 else{
 %>

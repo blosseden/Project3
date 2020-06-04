@@ -15,27 +15,16 @@ public class BbsDTO {
 	private String visitcount; // 조회수
 	// 멤버변수 추가 : board와 member 테이블의 join을 위해 name컬럼 추가
 	private String name;
+	//멀티게시판 구현을 위한 멤버변수 추가 : bname(게시판을 구분하기 위한 컬럼)
+	private String bname;
+	private String email;
 
 	public String getNum() {
 		return num;
 	}
-
 	public void setNum(String num) {
 		this.num = num;
 	}
-	//멀티게시판 구현을 위한 멤버변수 추가 : bname(게시판을 구분하기 위한 컬럼)
-
-	private String bname;
-
-
-	public String getBname() {
-		return bname;
-	}
-
-	public void setBname(String bname) {
-		this.bname = bname;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -72,5 +61,16 @@ public class BbsDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public String getBname() {
+		return bname;
+	}	
+	public void setBname(String bname) {
+		this.bname = bname;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
