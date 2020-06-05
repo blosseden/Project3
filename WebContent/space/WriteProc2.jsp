@@ -1,3 +1,6 @@
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.multipart.FileRenamePolicy"%>
 <%@page import="model.BbsDAO"%>
 <%@page import="model.BbsDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -10,8 +13,19 @@
 <%
 request.setCharacterEncoding("UTF-8");
 
+String saveDirectory = application.getRealPath("/Upload");
+
+int maxPostSize = 1024 * 5000;
+
+String encoding = "UTF-8";
+
+FileRenamePolicy policy = new DefaultFileRenamePolicy();
+
+MultipartRequest mr = null;
+
 String title = request.getParameter("title");//제목
 String content = request.getParameter("content");//내용 
+String file = mr.getFilesystemName("file");//파일
 
 //폼값을 DTO객체에 저장
 BbsDTO dto = new BbsDTO();

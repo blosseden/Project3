@@ -3,24 +3,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp"%>
+<%@ include file="../include/isFlag.jsp" %>
 <%
-	String queryStr = "";
-	String searchColumn = request.getParameter("searchColumn");
-	String searchWord = request.getParameter("searchWord");
-	if (searchWord != null) {
-		queryStr = "searchColumn=" + searchColumn + "&searchWord=" + searchWord + "&";
-	}
-	String nowPage = request.getParameter("nowPage");
-	queryStr += "&nowPage=" + nowPage;
+String queryStr = "bname="+ bname +"&";
+String searchColumn = request.getParameter("searchColumn");
+String searchWord = request.getParameter("searchWord");
 
-	String num = request.getParameter("num");
-	BbsDAO dao = new BbsDAO(application);
+if(searchWord != null) {
+	queryStr = "searchColumn=" + searchColumn + "&searchWord=" + searchWord + "&";
+}
+String nowPage = request.getParameter("nowPage");
+if(nowPage==null || nowPage.equals(""))
+	nowPage = "1";
+queryStr += "&nowPage=" + nowPage;
 
-	dao.updateVisitCount(num);
+String num = request.getParameter("num");
+BbsDAO dao = new BbsDAO(application);
 
-	BbsDTO dto = dao.selectView(num);
+dao.updateVisitCount(num);
 
-	dao.close();
+BbsDTO dto = dao.selectView(num);
+
+dao.close();
 %>
 <body>
 	<//center>
@@ -35,14 +39,10 @@
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub01_title.gif" alt="공지사항"
-						class="con_title" />
+					<img src="<%=boardTitle %>"	class="con_title" />
 					<p class="location">
-						<img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항
-
-
-					
-					<p>
+						<img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;<%=boardname %>
+					</p>
 				</div>
 				<div class="row">
 					<table class="table table-bordered">
@@ -75,21 +75,29 @@
 									<%=dto.getContent().replace("\r\n", "<br/>")%>
 								</td>
 							</tr>
+							<tr>
+								<% if(bname.equals("info")){ %>
+								<th class="text-center" style="vertical-align: middle;">첨부파일</th>
+								<td colspan="3">
+								<%} %>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div class="row">
 					<%
-							if (session.getAttribute("user_id") != null
-									&& session.getAttribute("user_id").toString().equals(dto.getId())) {
-						%>
-					<!-- 각종 버튼 부분 -->
+						if (session.getAttribute("user_id") != null
+							&& session.getAttribute("user_id").toString().equals(dto.getId())) {
+					%>
+					<!-- 수정하기 -->
 					<button type="button" class="btn btn-secondary"
-						onclick="location.href='BoardEdit.jsp?num=<%=dto.getNum()%>';">수정하기</button>
+						onclick="location.href='BoardEdit.jsp?num=<%=dto.getNum()%>&<%=queryStr%>';">수정하기</button>
+					<!-- 삭제하기 -->
 					<button type="button" class="btn btn-success" onclick="isDelete();">삭제하기</button>
 					<%
-							}
-						%>
+						}
+					%>
 					<div class="text-right ml-auto">
 						<button type="button" class="btn btn-warning"
 							onclick="location.href='BoardList.jsp?<%=queryStr%>';">리스트보기</button>
@@ -97,6 +105,7 @@
 				</div>
 				<form name="deleteFrm">
 					<input type="hidden" name="num" value="<%=dto.getNum()%>" />
+					<input type="hidden" name="bname" value="<%=bname %>" />
 				</form>
 				<script>
 					function isDelete() {

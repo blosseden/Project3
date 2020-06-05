@@ -151,7 +151,7 @@ MemberDAO dao = new MemberDAO(driver, url);
         			id : $("#id").val()
         		},
         		success : function(value) {
-        			window.open("./id_check/idcheck.jsp?result="+value,"", "width=300,heigth=300");
+        			window.open("./id_check/idcheck.jsp?result="+value,"idover", "width=300,heigth=300");
         		},
         		
         	});
@@ -218,7 +218,7 @@ MemberDAO dao = new MemberDAO(driver, url);
 </script>
     
  <body>
-	<//center>
+	<center>
 	<div id="wrap">
 		<%@ include file="../include/top.jsp" %>
 

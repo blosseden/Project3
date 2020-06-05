@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 <!-- 글작성 페이지 진입전에 로그인 체크를 해야만 쓸 수 있게 한다. -->
 <%@ include file="../member/isLogin.jsp"%>
+<%@ include file="../include/isFlag.jsp"%>
 <%@ include file="../include/global_head.jsp"%>
 <%
 //폼값 받기 - 파라미터로 전달된 게시물의 일련번호
@@ -50,17 +51,16 @@ dao.close();
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub01_title.gif" alt="공지사항"
-						class="con_title" />
+					<img src="<%=boardTitle %>" class="con_title" />
 					<p class="location">
-						<img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;공지사항
-					
-					<p>
+						<img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;<%=boardname%>
+					</p>	
 				</div>
 				<div>
 					<form name="writeFrm" method="post" action="EditProc.jsp"
 					 onsubmit="return checkValidate(this);">
 					 <input type="hidden" name="num" value="<%=dto.getNum() %>" />
+					 <input type="hidden" name="bname" value="<%=bname %>" />
 						<table class="table table-bordered">
 							<colgroup>
 								<col width="20%" />

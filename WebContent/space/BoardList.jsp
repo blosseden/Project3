@@ -7,8 +7,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/global_head.jsp"%>
+<%@ include file = "../include/isFlag.jsp" %>
 <%
-
 request.setCharacterEncoding("UTF-8");
 
 String driver = application.getInitParameter("MariaJDBCDriver");
@@ -18,7 +18,11 @@ BbsDAO dao = new BbsDAO(driver,url);
 
 Map<String,Object> param = new HashMap<String,Object>();
 
+param.put("bname", bname);
+
 String queryStr = "";
+
+queryStr = "bname="+ bname +"&";
 
 String searchColumn = request.getParameter("searchColumn");
 String searchWord= request.getParameter("searchWord");
@@ -27,7 +31,7 @@ if(searchWord!=null){
 	param.put("Column", searchColumn);
 	param.put("Word", searchWord);
 	
-	queryStr = "searchColumn="+searchColumn+"&searchWord="+searchWord+"&";
+	queryStr += "searchColumn="+searchColumn+"&searchWord="+searchWord+"&";
 }
 
 int totalRecordCount = dao.getTotalRecordCount(param);
@@ -55,7 +59,7 @@ List<BbsDTO> bbs = dao.selectListPage(param);
 dao.close();
 %>
 <body>
-	<center>
+	<//center>
 	<div id="wrap">
 		<%@ include file="../include/top.jsp"%>
 
@@ -68,23 +72,22 @@ dao.close();
 			</div>
 			<div class="right_contents">
 				<div class="top_title">
-					<img src="../images/space/sub03_title.gif" alt="자유게시판"
-						class="con_title" />
-					<p class="location">
-						<img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;자유게시판
-
 					
-					<p>
+					<img src="<%=boardTitle%>" class="con_title" />
+					<p class="location">
+						<img src="../images/center/house.gif" />&nbsp;&nbsp;열린공간&nbsp;>&nbsp;<%=boardname%>
+					</p>
 				</div>
 				<div class="row text-right"
 					style="margin-bottom: 20px; padding-right: 50px;">
 					<!-- 검색부분 -->
 					<form class="form-inline ml-auto" name="searchFrm" method="get">
+					<!-- 검색시 필수파라미터인 bname이 전달 되어야 한다 -->
+					<input type="hidden" name="bname" value="<%=bname %>" />
 						<div class="form-group">
 							<select name="searchColumn" class="form-control">
-								<option value="">제목</option>
-								<option value="">작성자</option>
-								<option value="">내용</option>
+								<option value="title">제목</option>
+								<option value="content">내용</option>
 							</select>
 						</div>
 						<div class="input-group">
@@ -116,17 +119,19 @@ dao.close();
 								<th>작성자</th>
 								<th>작성일</th>
 								<th>조회수</th>
-								<!-- <th>첨부</th> -->
+								<% if(bname.equals("info")){ %>
+								<th>첨부</th>
+								<%} %>
 							</tr>
 						</thead>
 						<tbody>
 						<%
-							//게시물이 없을 때
-							if (bbs.isEmpty()) {
+						//게시물이 없을 때
+						if (bbs.isEmpty()) {
 						%>
 						<tr>
 							<td colspan="5" align="center" height="50">
-								<!-- 등록된 게시물이 없습니다. --> 멍청이
+								등록된 게시물이 없습니다.
 							</td>
 						</tr>
 						<%
@@ -134,12 +139,9 @@ dao.close();
 								//게시물의 가상번호로 사용 할 변수
 								int vNum = 0;
 								int countNum = 0;
-								/*
-								컬렉션에 입력된 데이터가 있다면 저장된 BbsDTO의 갯수만큼
-								즉, DB가 반환해준 레코드의 갯수만큼 반복하면서 출력한다.
-								*/
+								
 								for (BbsDTO dto : bbs) {
-									//전체 레코드수를 이용하여 하나씩 차감하면서 가상번호 부여
+									
 									vNum = totalRecordCount - 
 											(((nowPage-1) * pageSize) + countNum++);
 						%>
@@ -150,7 +152,9 @@ dao.close();
 								<td class="text-center"><%=dto.getId()%></td>
 								<td class="text-center"><%=dto.getPostDate()%></td>
 								<td class="text-center"><%=dto.getVisitcount()%></td>
-								<!--<td class="text-center">첨부</td> -->
+								<% if(bname.equals("info")){ %>
+								<td class="text-center">첨부</td>
+								<%} %>
 							</tr>
 							<!-- 리스트 반복 끗 -->
 							<%
@@ -162,10 +166,12 @@ dao.close();
 				</div>
 				<div class="row">
 					<div class="col text-right">
-						<!-- 각종 버튼 부분 -->
+						<!-- 글쓰기  -->
+						<% if(bname.equals("freeboard") || bname.equals("picture") || bname.equals("info") || bname.equals("program")){ %>
 						<button type="button" class="btn btn-primary"
-							onclick="location.href='BoardWrite.jsp';">글쓰기</button>
-
+							onclick="location.href='BoardWrite.jsp?bname=<%=bname%>';">글쓰기</button>
+						<%} %>
+						
 						<!-- <button type="button" class="btn btn-primary">수정하기</button>
 						<button type="button" class="btn btn-success">삭제하기</button>
 						<button type="button" class="btn btn-info">답글쓰기</button>

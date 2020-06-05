@@ -71,12 +71,13 @@ public class BbsDAO {
 			String query = "INSERT INTO multi_board( "
 					+ " title,content,id,visitcount,bname)"
 					+ " VALUES( "
-					+ " ?, ?, ?, 0, 'freeboard')";
+					+ " ?, ?, ?, 0, ?)";
 			
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getTitle());
 			psmt.setString(2, dto.getContent());
 			psmt.setString(3, dto.getId());
+			psmt.setString(4, dto.getBname());
 			
 			affected = psmt.executeUpdate();
 			
@@ -111,7 +112,7 @@ public class BbsDAO {
 		
 		//기본쿼리문(전체레코드를 대상으로 함)
 		String query = "SELECT COUNT(*) FROM multi_board"
-					+ " WHERE bname='freeboard'";
+					+ " WHERE bname='"+map.get("bname")+"'";
 		
 		//JSP페이지에서 검색어를 입력한 경우 where절이 동적으로 추가됨.
 		if(map.get("Word")!=null) {
@@ -277,7 +278,7 @@ public class BbsDAO {
 		
 		List<BbsDTO> bbs = new Vector<BbsDTO>();
 		
-		String query = "SELECT * FROM multi_board WHERE bname='freeboard'";
+		String query = "SELECT * FROM multi_board WHERE bname='"+map.get("bname")+"'";
 			if(map.get("Word")!=null)
 			{
 				query +=" AND "+ map.get("Column")+" "

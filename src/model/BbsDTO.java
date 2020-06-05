@@ -18,6 +18,8 @@ public class BbsDTO {
 	//멀티게시판 구현을 위한 멤버변수 추가 : bname(게시판을 구분하기 위한 컬럼)
 	private String bname;
 	private String email;
+	private String level;
+	private String File
 
 	public String getNum() {
 		return num;
@@ -72,5 +74,11 @@ public class BbsDTO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
 	}
 }

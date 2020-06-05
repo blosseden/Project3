@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+Cookie [] cookies = request.getCookies();
+String user = "";
+if(cookies!=null){
+ 	for(Cookie ck : cookies) {
+  		if(ck.getName().equals("user_id")){
+   			user = ck.getValue();
+   		}
+   	}
+}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -39,7 +50,7 @@
 				<p class="main_title" style="border:0px; margin-bottom:0px;"><img src="../images/main_title01.gif" alt="로그인 LOGIN" /></p>
 				<div class="login_box">
 					 <%
-					 if(session.getAttribute("USER_ID")==null){
+					 if(session.getAttribute("user_id")==null){
 					 %>
 					<form action="../member/LoginProcess.jsp" method="post" name="loginFrm" onsubmit="return loginValidate(this);">
 					<table cellpadding="0" cellspacing="0" border="0">
@@ -50,16 +61,16 @@
 						</colgroup>
 						<tr>
 							<th><img src="../images/login_tit01.gif" alt="아이디" /></th>
-							<td><input type="text" name="user_id" value="" class="login_input" /></td>
+							<td><input type="text" name="user_id" value="<%= user==null ? "" : user %>" class="login_input" /></td>
 							<td rowspan="2"><input type="image" src="../images/login_btn01.gif" alt="로그인" /></td>
 						</tr>
 						<tr>
 							<th><img src="../images/login_tit02.gif" alt="패스워드" /></th>
-							<td><input type="text" name="user_pw" value="" class="login_input" /></td>
+							<td><input type="password" name="user_pw" value="" class="login_input" /></td>
 						</tr>
 					</table>
 					<p>
-						<input type="checkbox" name="" value="" /><img src="../images/login_tit03.gif" alt="저장" />
+						<input type="checkbox" name="id_save" value="Y" <% if(user.length()!=0) { %><% } %>/><img src="../images/login_tit03.gif" alt="저장" />
 						<a href="../member/id_pw.jsp"><img src="../images/login_btn02.gif" alt="아이디/패스워드찾기" /></a>
 						<a href="../member/join01.jsp"><img src="../images/login_btn03.gif" alt="회원가입" /></a>
 					</p>
@@ -70,7 +81,7 @@
 						<table cellpadding="0" cellspacing="0" border="0">
 						<tr>
 						<td>
-					<p><span style="font-weight:bold; color:#333;"><%=session.getAttribute("USER_NAME") %>아</span> 열심히살자 ^오^b <br /><br /></p>
+					<p><span style="font-weight:bold; color:#333;"><%=session.getAttribute("user_name") %></span>어서오십시오 <br /><br /></p>
 						</td>
 						</tr>
 						</table>

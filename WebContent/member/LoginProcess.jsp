@@ -5,17 +5,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	String id = request.getParameter("user_id");
+String id = request.getParameter("user_id");
 String pw = request.getParameter("user_pw");
-
+String id_save = request.getParameter("id_save");
 
 //MariaDB정보로 변경되므로 초기화파라미터를 수정한다.
 String drv = application.getInitParameter("MariaJDBCDriver");
 String url = application.getInitParameter("MariaConnectURL");
 
 MemberDAO dao = new MemberDAO(drv, url);
-
-
 
 
 //방법3 : Map 컬렉션에 회원정보 저장 후 반환받기 
@@ -26,11 +24,20 @@ if(memberInfo.get("id")!=null){
 	session.setAttribute("user_id", memberInfo.get("id"));
 	session.setAttribute("user_pw", memberInfo.get("pass"));
 	session.setAttribute("user_name", memberInfo.get("name"));
-%>
-<script>
-	history.go(-1);
-</script>
-<%
+	if(id_save==null){
+		Cookie ck = new Cookie("user_id", "");
+		ck.setPath(request.getContextPath());
+		ck.setMaxAge(0);
+		response.addCookie(ck);
+	}
+	else{
+		Cookie ck = new Cookie("user_id", id);
+		System.out.println(request.getContextPath());
+		ck.setPath(request.getContextPath());
+		ck.setMaxAge(60*60*24*100);
+		response.addCookie(ck);
+	}
+	response.sendRedirect("login.jsp");
 }
 
 else{
