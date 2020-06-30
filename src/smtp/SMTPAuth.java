@@ -16,7 +16,7 @@ public class SMTPAuth extends Authenticator {
 	
 	@Override
 	protected PasswordAuthentication getPasswordAuthentication() {
-		return new PasswordAuthentication("krst7336@naver.com", "ibtj6^^*879");
+		return new PasswordAuthentication("krst7336@naver.com", "");
 	}
 	
 	public boolean emailSending(Map<String,String> map) {
